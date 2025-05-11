@@ -7,9 +7,11 @@
         "makemigrations",
         "modelfields",
         "phonenumber",
+        "redoc",
         "restomate",
         "venv",
         "viewsets",
-        "yasg"
+        "yasg",
+        "ysge"
     ]
 }
