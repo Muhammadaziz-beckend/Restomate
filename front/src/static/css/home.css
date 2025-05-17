@@ -1,0 +1,16 @@
+.left {
+    width: 420px;
+
+    .left_container {
+        width: 100%;
+        
+        .left_items {
+            
+            height: 45rem;
+            max-height: 45rem;
+            padding: 10px 5px;
+            background-color: white;
+            border-radius: 7.6px;
+        }
+    }
+}

@@ -1,0 +1,16 @@
+
+
+.table {
+
+    border: 2px solid rgb(190, 188, 188);
+    border-radius: 8.6px;
+    
+}
+
+.grey {
+    background-color: gray;
+}
+
+.red {
+    background-color: red;
+}

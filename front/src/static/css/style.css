@@ -1,0 +1,65 @@
+* {
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+    font-family: "Noto Sans", sans-serif;
+}
+
+body {
+    background-color: rgb(48, 137, 221);
+}
+
+.container {
+
+    max-width: 1400px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0px 15px;
+}
+
+
+.header {
+    padding: 10px 15px;
+
+    .container {
+
+        .header_items {
+
+            .logo {
+                font-size: 24px;
+                color: white;
+                text-decoration: none;
+
+                .beck_div {
+                    display: flex;
+                    align-items: center;
+
+                    .beck_svg {
+                        width: 32px;
+                        height: auto;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.main {
+
+
+    .container {
+
+        .main_items {
+            padding: 15px 0px;
+
+            display: flex;
+            gap: 15px;
+        }
+
+        .tables {
+            flex-wrap: wrap;
+            flex-direction: row;
+            justify-content: space-evenly;
+        }
+    }
+}
