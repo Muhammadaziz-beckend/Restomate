@@ -11,9 +11,14 @@ const Tables = () => {
 
       <main className="main">
         <div className="container">
-          <div className="main_items tables">
+          <div className="main_items tables_">
             {tables.map((item) => (
-              <Table num={item?.number} is_occupied={item?.is_occupied} seats={item?.seats}/>
+              <Table
+                id={item?.id}
+                num={item?.number}
+                is_occupied={item?.is_occupied}
+                seats={item?.seats}
+              />
             ))}
           </div>
         </div>

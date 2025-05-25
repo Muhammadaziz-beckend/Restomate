@@ -85,9 +85,9 @@ const Table6 = ({ num = 0 }) => {
   );
 };
 
-const Table = ({ seats, is_occupied, num = 1 }) => {
+const Table = ({id, seats, is_occupied, num = 1 }) => {
   return (
-    <NavLink to={`${num}/`} className="table">
+    <NavLink to={`/tables/${num}/id/${id}`} className="table_">
       <div className={`table_item ${is_occupied ? "red" : "grey"}`}>
         {seats >= 6 ? <Table6 num={num} /> : <Table4 num={num} />}
       </div>

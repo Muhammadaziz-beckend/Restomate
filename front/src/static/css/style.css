@@ -24,6 +24,9 @@ body {
     .container {
 
         .header_items {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
 
             .logo {
                 font-size: 24px;
@@ -38,6 +41,17 @@ body {
                         width: 32px;
                         height: auto;
                     }
+                }
+            }
+
+            .menu {
+                background-color: transparent;
+                border: none;
+
+                cursor: pointer;
+
+                img {
+                    width: 42px;
                 }
             }
         }
@@ -56,7 +70,7 @@ body {
             gap: 15px;
         }
 
-        .tables {
+        .tables_ {
             flex-wrap: wrap;
             flex-direction: row;
             justify-content: space-evenly;
