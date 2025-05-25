@@ -1,4 +1,4 @@
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save,post_delete
 from django.dispatch import receiver
 
 from .models import Order, OrderItems
@@ -24,3 +24,16 @@ def order_handler(sender, instance: Order, created, **kwargs):
 
     if instance.total_prise != total_price:
         Order.objects.filter(pk=instance.pk).update(total_prise=total_price)
+
+    if instance.table:
+        table_orders = instance.table.orders.filter(is_paid=False).exists()
+        instance.table.is_occupied = bool(table_orders)
+        instance.table.save()
+
+@receiver(post_delete, sender=Order)
+def order_delete_handel(sender, instance: Order, *args, **kwargs):
+    
+    if instance.table:
+        table_orders = instance.table.orders.filter(is_paid=False).exists()
+        instance.table.is_occupied = bool(table_orders)
+        instance.table.save()

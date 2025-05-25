@@ -4,6 +4,7 @@
         "Browsable",
         "corsheaders",
         "dotenv",
+        "filterset",
         "makemigrations",
         "modelfields",
         "phonenumber",

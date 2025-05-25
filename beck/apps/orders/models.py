@@ -19,9 +19,7 @@ class Table(models.Model):
 class Order(DataTimeCUAbstract):
     STATUS_CHOICES = [
         ("created", "Создан"),
-        ("cooking", "Готовится"),
         ("ready", "Готов"),
-        ("paid", "Оплачен"),
     ]
     user = models.ForeignKey(
         "account.User",
@@ -38,6 +36,7 @@ class Order(DataTimeCUAbstract):
         verbose_name="Стол",
     )
     status = models.CharField(
+        "Статус",
         max_length=10,
         choices=STATUS_CHOICES,
         default="created",
@@ -47,6 +46,10 @@ class Order(DataTimeCUAbstract):
         max_digits=10,
         decimal_places=2,
         default=0,
+    )
+    is_paid = models.BooleanField(
+        "Оплачено",
+        default=False,
     )
 
     class Meta:
@@ -73,9 +76,13 @@ class OrderItems(models.Model):
     )
     count = models.PositiveIntegerField(
         "Количество",
+        default=1
     )
     total_prise = models.DecimalField(
-        "Общая цена", max_digits=10, decimal_places=2, default=0
+        "Общая цена",
+        max_digits=10,
+        decimal_places=2,
+        default=0,
     )
 
     class Meta:

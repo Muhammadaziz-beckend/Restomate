@@ -1,0 +1,9 @@
+{% extends "admin/change_list.html" %}
+
+{% block result_list %}
+    {{ block.super }}
+    <div style="margin-top: 20px; padding: 10px; background:rgb(0, 0, 0); border: 1px solid #ccc;">
+        <strong>Общая сумма оплаченных заказов:</strong>
+        <span style="color: green; font-size: 16px;">{{ total_paid }} сом</span>
+    </div>
+{% endblock %}
