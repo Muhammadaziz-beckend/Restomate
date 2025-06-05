@@ -78,6 +78,17 @@
                             }
                         }
                     }
+
+                }
+                .btn_design {
+                    width: 100%;
+
+                    padding: 15px 10px;
+                    border-radius: 8px;
+
+                    color: white;
+                    border: none;
+                    background-color: gray;
                 }
             }
 

@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.contrib.admin import ModelAdmin, TabularInline
 from django.db.models import Sum
+from rangefilter.filters import DateTimeRangeFilter
 
 from .models import *
 
@@ -52,20 +53,20 @@ class OrderAdmin(ModelAdmin):
         "table",
         "status",
         "total_prise",
-        # "is_paid",
+        "is_paid",
     )
 
     search_fields = ("id",)
 
     list_filter = (
-        "create_dt",
-        "update_dt",
+        ("create_dt", DateTimeRangeFilter),
+        "is_paid",
         "status",
         "table",
     )
     change_list_template = "admin/orders/order_changelist.html"
     inlines = [OrderItemsInline]
-    list_per_page = 20 
+    list_per_page = 20
 
     def changelist_view(self, request, extra_context=None):
         response = super().changelist_view(request, extra_context=extra_context)
@@ -73,12 +74,15 @@ class OrderAdmin(ModelAdmin):
         try:
             queryset = response.context_data["cl"].queryset
             total_paid = (
-                queryset.filter(is_paid=True).aggregate(total=Sum("total_prise"))["total"]
+                queryset.filter(is_paid=True).aggregate(total=Sum("total_prise"))[
+                    "total"
+                ]
                 or 0
             )
-        except (AttributeError, KeyError):
+            
+            response.context_data["total_paid"] = total_paid
+        except:
             total_paid = 0
 
-        response.context_data["total_paid"] = total_paid
         return response
-
+    

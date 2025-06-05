@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     "django_cleanup.apps.CleanupConfig",
     "django_filters",
     "corsheaders",
-
+    "rangefilter",
     # apps
     "apps.account",
     "apps.orders",
@@ -130,12 +130,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / 'static']
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATIC_URL = "/static/"
+STATICFILES_DIRS = [BASE_DIR / "static"]
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
@@ -172,15 +172,14 @@ CORS_ALLOWED_ORIGINS = [
     # front
     "http://localhost:3000",
     "http://127.0.0.1:3000",
-    
     "http://localhost:5173",
     "http://127.0.0.1:5173",
+    "http://192.168.1.135:5173",
     # other
     "http://localhost",
     "http://127.0.0.1",
-    
     "http://192.168.20.29:5173",
-    "http://192.168.20.29"
+    "http://192.168.20.29",
 ]
 
 CORS_ALLOW_CREDENTIALS = True

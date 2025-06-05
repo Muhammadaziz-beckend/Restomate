@@ -19,6 +19,7 @@ class Table(models.Model):
 class Order(DataTimeCUAbstract):
     STATUS_CHOICES = [
         ("created", "Создан"),
+        ("confirmed", "Оформлен"),
         ("ready", "Готов"),
     ]
     user = models.ForeignKey(
@@ -59,8 +60,23 @@ class Order(DataTimeCUAbstract):
     def __str__(self):
         return f"Заказ №{self.pk}"
 
+    def update_status(self):
+        items = self.items.all()
+        
+        if all(item.status == "ready" for item in items):
+            self.status = "ready"
+        elif any(item.status == "ready" for item in items):
+            self.status = "confirmed"
+
+        self.save()
+
 
 class OrderItems(models.Model):
+    STATUS_CHOICES = [
+        ("created", "Создан"),
+        ("ready", "Готово"),
+    ]
+
     order = models.ForeignKey(
         Order,
         models.CASCADE,
@@ -74,16 +90,14 @@ class OrderItems(models.Model):
         related_name="orders_item",
         verbose_name="Блюло",
     )
-    count = models.PositiveIntegerField(
-        "Количество",
-        default=1
-    )
+    count = models.PositiveIntegerField("Количество", default=1)
     total_prise = models.DecimalField(
         "Общая цена",
         max_digits=10,
         decimal_places=2,
         default=0,
     )
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="created")
 
     class Meta:
         verbose_name = "Заказ"
@@ -91,3 +105,7 @@ class OrderItems(models.Model):
 
     def __str__(self):
         return f"{self.order.pk} order item"
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        self.order.update_status()

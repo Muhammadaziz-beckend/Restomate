@@ -1,0 +1,36 @@
+.dressed {
+
+
+    .container {
+
+        .dressed_items {
+
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+
+            .card {
+                .card-body {
+
+                    .dish {
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                    }
+                }
+            }
+
+
+
+
+
+        }
+
+
+
+    }
+
+
+
+
+}

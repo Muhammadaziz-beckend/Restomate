@@ -18,10 +18,8 @@ class ListTableSerializers(serializers.ModelSerializer):
 
 
 class EditCountOrderItem(serializers.Serializer):
-    count = serializers.IntegerField(min_value=0, help_text="Новое количество блюда")
-
-
-# class CreateCountOrderItem(serializers.)
+    count = serializers.IntegerField(min_value=1, help_text="Новое количество блюда")
+    status = serializers.ChoiceField(choices=OrderItems.STATUS_CHOICES, help_text="Статус заказа")
 
 
 class CreateTableSerializer(serializers.ModelSerializer):
@@ -44,6 +42,7 @@ class OrderItemSerializer(serializers.ModelSerializer):
             "dish",
             "count",
             "total_prise",
+            "status",
         )
 
 

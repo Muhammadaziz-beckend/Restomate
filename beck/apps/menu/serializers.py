@@ -15,8 +15,9 @@ class ListDishSerializer(serializers.ModelSerializer):
             "category",
         )
 
+
 class DishInOrderSerializer(serializers.ModelSerializer):
-    
+
     class Meta:
         model = Dish
         fields = (
@@ -24,6 +25,7 @@ class DishInOrderSerializer(serializers.ModelSerializer):
             "name",
             "prise",
         )
+
 
 class RetrieveDishSerializer(serializers.ModelSerializer):
 
@@ -53,11 +55,10 @@ class CreateDishSerializer(serializers.ModelSerializer):
 
 
 class CategorySerializer(serializers.ModelSerializer):
-    
+
     class Meta:
         model = Category
         fields = (
             "id",
             "name",
         )
-        

@@ -17,9 +17,7 @@ export default function SideMenu() {
 
   const menuItems = [
     { label: "🏠 Главная", path: "/" },
-    { label: "📋 Заказы", path: "/orders" },
-    { label: "👨‍🍳 Кухня", path: "/kitchen" },
-    { label: "⚙️ Настройки", path: "/settings" },
+    { label: "👨‍🍳 Отделы", path: "/dressed" },
   ];
 
   const list = (anchor) => (

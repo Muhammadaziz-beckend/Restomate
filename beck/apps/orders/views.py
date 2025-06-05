@@ -116,20 +116,23 @@ class UpdateOrderItem(GenericAPIView):
                 status=status.HTTP_403_FORBIDDEN,
             )
 
-        serializer = EditCountOrderItem(data=request.data)
+        serializer = EditCountOrderItem(data=request.data, partial=True)
         if serializer.is_valid():
-            count = serializer.validated_data["count"]
-            if count > 0:
+            count = serializer.validated_data.get("count")
+            status = serializer.validated_data.get("status")
+
+            if count is not None and count > 0:
                 item.count = count
                 item.save()
-                return Response(
-                    {"success": "Количество обновлено!"},
-                )
-            else:
+                return Response({"success": "Количество обновлено!"})
+            elif status is not None:
+                item.status = status
+                item.save()
+                return Response({"success": "Статус обновлено!"})
+            elif count == 0:
                 item.delete()
-                return Response(
-                    {"success": "Блюдо из заказа удалён"},
-                )
+                return Response({"success": "Блюдо из заказа удалён"})
+
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     @swagger_auto_schema(
@@ -169,46 +172,17 @@ class UpdateOrderItem(GenericAPIView):
                 status=status.HTTP_403_FORBIDDEN,
             )
 
-        serializer = EditCountOrderItem(data=request.data)
+        serializer = EditCountOrderItem(data=request.data,partial=True)
         if serializer.is_valid():
-            count = serializer.validated_data["count"]
+            count = serializer.validated_data.get("count", 1)
             if count > 0:
-                OrderItems.objects.create(order=order, dish=dish)
-
+                OrderItems.objects.create(order=order, dish=dish, count=count)
                 return Response(
-                    {"success": "Блюдо добавлено"},
-                    status=status.HTTP_201_CREATED,
+                    {"success": "Блюдо добавлено"}, status=status.HTTP_201_CREATED
                 )
-
             return Response(
                 {"error": "Количество должно быть больше 0"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        return
-
-
-# class AdminOrderViewSet(UltraModelViewSet):
-#     queryset = Order.objects.all()
-#     lookup_field = "id"
-#     filter_backends = [
-#         OrderingFilter,
-#         DjangoFilterBackend,
-#     ]
-#     ordering = ["-create_dt"]
-#     serializer_class = ListOrderSerializer
-#     filterset_class = OrderFilter
-#     serializer_classes = {
-#         "list": ListOrderSerializer,
-#         "retrieve": RetrieveOrderSerializer,
-#         "update": CreateOrderSerializer,
-#         "create": CreateOrderSerializer,
-#     }
-#     permission_classes_by_action = {
-#         "list": [IsAuthenticated, IsAdminUser],
-#         "retrieve": [IsAuthenticated, IsAdminUser],
-#         "create": [IsAuthenticated, IsAdminUser],
-#         "update": [IsAuthenticated, IsAdminUser],
-#         "destroy": [IsAuthenticated, IsAdminUser],
-#     }
-#     pagination_class = PaginatorClass
+        return Response(serializer.errors,status=404)

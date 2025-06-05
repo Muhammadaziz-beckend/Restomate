@@ -8,6 +8,7 @@ import Config from "../../utils/data";
 import Post from "../../utils/routes/post";
 import Delete from "../../utils/routes/delete";
 import TreshImg from "../../static/images/tresh.webp";
+import Index from "../../pages/Dressed";
 
 const OrderDish = ({
   orderId,
@@ -189,7 +190,7 @@ const ListSelected = ({ order, setOrder }) => {
   }, [order?.total_prise]);
 
   const payFun = (idOrder) => {
-    if (animatedTotal > 0) {
+    if (animatedTotal > 0 && typeof animatedTotal == "number") {
       const res = window.confirm(
         `Вы точно хотите завершить "Заказ №${idOrder}"`
       );
@@ -209,6 +210,7 @@ const ListSelected = ({ order, setOrder }) => {
               }
             });
           }
+          navigate(`/check/${idOrder}/`);
         });
       }
     } else {
@@ -237,6 +239,32 @@ const ListSelected = ({ order, setOrder }) => {
     });
   };
 
+  const designOrder = (idOrder) => {
+
+    const res = window.confirm(
+      `Вы точно хотите оформить "Заказ №${idOrder}"`
+    );
+
+    if (!res) return;
+
+    Patch(
+      `orders/${idOrder}/`,
+      {
+        status: "confirmed",
+      },
+      token
+    ).then((r) => {
+      if (r?.status === 200) {
+        getOrder().then((newOrders) => {
+          const newOrder = newOrders.find((o) => o.id === r.data.id);
+          if (newOrder) {
+            setOrder(newOrder);
+          }
+        });
+      }
+    });
+  }
+
   return (
     <>
       <ToastContainer />
@@ -260,17 +288,20 @@ const ListSelected = ({ order, setOrder }) => {
                     <div className="order_dishes">
                       {item?.items?.length !== 0
                         ? item?.items.map((order_item) => (
-                            <OrderDish
-                              orderId={item?.id}
-                              id={order_item?.id}
-                              count={order_item?.count}
-                              dishName={order_item?.dish?.name}
-                              dishPrise={order_item?.dish?.prise}
-                              updateOrderItemCount={updateOrderItemCount}
-                            />
+                            <>
+                              <OrderDish
+                                orderId={item?.id}
+                                id={order_item?.id}
+                                count={order_item?.count}
+                                dishName={order_item?.dish?.name}
+                                dishPrise={order_item?.dish?.prise}
+                                updateOrderItemCount={updateOrderItemCount}
+                              />
+                            </>
                           ))
                         : "Добавите блюдо"}
                     </div>
+                    {(item?.items?.length !== 0 && item?.status != "confirmed") && <button className="btn_design" onClick={() => designOrder(item?.id)}>Оформить</button>}
                   </div>
                 ))}
           </div>
